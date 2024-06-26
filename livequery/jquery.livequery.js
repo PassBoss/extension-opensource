@@ -37,15 +37,11 @@
   
         var nodeType = node.nodeType;
         if (nodeType === 1 || nodeType === 9 || nodeType === 11) {
-          if (PREDEFINED_BROWSER_TYPE === 'ieframe' && !node.querySelectorAll) {
+          try {
+            return Array.from(node.querySelectorAll(selector));
+          } catch(e) {
+            console.error('$findLengthFallback exception: ' + e.message + ': ' + e.stack);
             return $.find(selector, node);
-          } else {
-            try {
-              return Array.from(node.querySelectorAll(selector));
-            } catch(e) {
-              console.error('$findLengthFallback exception: ' + e.message + ': ' + e.stack);
-              return $.find(selector, node);
-            }
           }
         }
       
